@@ -28,6 +28,7 @@
             title: "{{ campaign.name }}",
             start: "{{ campaign.start_date|date:'Y-m-d' }}",
             end: "{{ campaign.end_date|date:'Y-m-d' }}",
+            url: "{% url 'campaign_detail' campaign.pk %}",
             }{% if not forloop.last %},{% endif %}
         {% endfor %}
         ]
