@@ -20,11 +20,10 @@ class Product(models.Model):
     vendor_code = models.CharField(max_length=50, null=True, blank=True)
     cis_code = models.CharField(max_length=50, null=True, blank=True)
     laq_code = models.CharField(max_length=50, null=True, blank=True)
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     created_date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
-    created_by = models.CharField(max_length=255)  # You can replace this with a ForeignKey to a User model if needed
 
     def __str__(self):
         return self.name
