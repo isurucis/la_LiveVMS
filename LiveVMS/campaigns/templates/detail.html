@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ object.name }} Campaign</h1>
+<p>Type: {{ object.campaign_type }}</p>
+<p>Start Date: {{ object.start_date }}</p>
+<p>End Date: {{ object.end_date }}</p>
+
+<h2>Products in Campaign</h2>
+<ul>
+  {% for campaign_product in products %}
+    <li>{{ campaign_product.product.name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
