@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vendor, ProductCategory, Product, PurchaseOrder, PurchaseOrderItem, Campaign, CampaignProduct, CampaignChannel
+from .models import  Campaign, CampaignProduct, CampaignChannel
 
 class CampaignProductInline(admin.TabularInline):
     model = CampaignProduct

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vendor, ProductCategory, Product, PurchaseOrder, PurchaseOrderItem, Campaign, CampaignProduct, CampaignChannel
+from .models import Vendor
 
 @admin.register(Vendor)
 class VendorAdmin(admin.ModelAdmin):
