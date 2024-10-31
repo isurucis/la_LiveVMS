@@ -1,4 +1,6 @@
 from django.db import models
+from vendors.models import Vendor
+from products.models import Product
 
 # Create your models here.
 class PurchaseOrder(models.Model):

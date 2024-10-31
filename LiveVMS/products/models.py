@@ -1,4 +1,5 @@
 from django.db import models
+from vendors.models import Vendor
 
 # Create your models here.
 class ProductCategory(models.Model):
