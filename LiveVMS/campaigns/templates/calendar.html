@@ -26,8 +26,8 @@
         {% for campaign in campaigns %}
             {
             title: "{{ campaign.name }}",
-            start: "{{ campaign.start_date }}",
-            end: "{{ campaign.end_date }}",
+            start: "{{ campaign.start_date|date:'Y-m-d' }}",
+            end: "{{ campaign.end_date|date:'Y-m-d' }}",
             }{% if not forloop.last %},{% endif %}
         {% endfor %}
         ]
