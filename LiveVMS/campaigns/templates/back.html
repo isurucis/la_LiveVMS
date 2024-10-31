@@ -1,0 +1,19 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: [
+        {% for campaign in campaigns %}
+        {
+          title: "{{ campaign.name }}",
+          start: "{{ campaign.start_date }}",
+          end: "{{ campaign.end_date }}",
+          url: "{% url 'campaign_detail' campaign.pk %}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+        ]
+      });
+      calendar.render();
+    });
+  </script>

@@ -24,13 +24,13 @@
         },
         events: [
         {% for campaign in campaigns %}
-            {
-            title: "{{ campaign.name }}",
-            start: "{{ campaign.start_date }}",
-            end: "{{ campaign.end_date }}",
-            },
+        {
+          title: "{{ campaign.name }}",
+          start: "{{ campaign.start_date }}",
+          end: "{{ campaign.end_date }}",
+          url: "{% url 'campaign_detail' campaign.pk %}"
+        }{% if not forloop.last %},{% endif %}
         {% endfor %}
-        ]
       });
   
       calendar.render();
