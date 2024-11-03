@@ -15,12 +15,25 @@ class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
         fields = ('name', 'scientific_name', 'category', 'vendor', 'vendor_code', 'cis_code', 'laq_code', 'stock', 'price', 'is_active',)  # Specify the fields to import/export
-        
+
+class CategoryFilter(admin.SimpleListFilter):
+    title = 'category'
+    parameter_name = 'category'
+
+    def lookups(self, request, model_admin):
+        categories = ProductCategory.objects.all()
+        return [(cat.id, cat.name) for cat in categories]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(category__id=self.value())
+        return queryset
+
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin):
     resource_class = ProductResource
     list_display = ('name', 'scientific_name', 'category', 'vendor', 'stock', 'price', 'is_active', 'created_date')
-    list_filter = ('category', 'vendor', 'is_active')
+    list_filter = (CategoryFilter, 'vendor', 'is_active')
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date',)
