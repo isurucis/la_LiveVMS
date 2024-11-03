@@ -1,16 +1,19 @@
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 from vendors.models import Vendor
 
 # Create your models here.
-class ProductCategory(models.Model):
+class ProductCategory(MPTTModel):
     name = models.CharField(max_length=255)
-    parent = models.ForeignKey(
+    parent = TreeForeignKey(
         'self', on_delete=models.CASCADE, related_name='subcategories', null=True, blank=True
     )
 
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
     def __str__(self):
         return self.name
-    
     
 class Product(models.Model):
     name = models.CharField(max_length=255)

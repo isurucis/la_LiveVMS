@@ -2,13 +2,15 @@ from django.contrib import admin
 from .models import ProductCategory, Product
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 @admin.register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent')
+class ProductCategoryAdmin(DraggableMPTTAdmin):
+    mptt_indent_field = "name"
+    list_display = ('tree_actions', 'indented_title', 'parent')
     list_filter = ('parent',)
     search_fields = ('name',)
-
+    
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
