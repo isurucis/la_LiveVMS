@@ -16,3 +16,7 @@ class CampaignAdmin(admin.ModelAdmin):
     search_fields = ('name', 'campaign_type')
     date_hierarchy = 'start_date'
 
+
+admin.site.site_header = "LiveVMS Admin"
+admin.site.site_title = "Live VMS"
+admin.site.index_title = "Live VMS"

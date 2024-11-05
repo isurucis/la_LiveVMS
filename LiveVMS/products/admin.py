@@ -38,3 +38,6 @@ class ProductAdmin(ImportExportModelAdmin):
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date',)
 
+admin.site.site_header = "LiveVMS Admin"
+admin.site.site_title = "Live VMS"
+admin.site.index_title = "Live VMS"
