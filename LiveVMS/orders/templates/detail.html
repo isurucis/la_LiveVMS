@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ object.name }} Campaign</h1>
-<p>Type: {{ object.campaign_type }}</p>
-<p>Start Date: {{ object.start_date }}</p>
-<p>End Date: {{ object.end_date }}</p>
+<h1>{{ object.name }} Shipment</h1>
+<p>airport: {{ object.airport }}</p>
+<p>Arrival Date: {{ object.date_of_arrival }}</p>
+<p>Origin: {{ object.country_of_origin }}</p>
+<p>Status: {{ object.status }}</p>
 
-<h2>Products in Campaign</h2>
+<h2>Products in Shipment</h2>
 <ul>
-  {% for campaign_product in products %}
-    <li>{{ campaign_product.product.name }}</li>
+  {% for product in products %}
+    <li>
+      {{ product.name }} ({{ product.size }}) - {{ product.quantity }}
+    </li>
   {% endfor %}
 </ul>
 {% endblock %}
