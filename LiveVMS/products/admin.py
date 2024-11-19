@@ -8,7 +8,6 @@ from mptt.admin import DraggableMPTTAdmin
     
 
 class ProductCategoryResource(resources.ModelResource):
-    parent = resources.ForeignKeyWidget(ProductCategory, 'name')
 
     class Meta:
         model = ProductCategory
