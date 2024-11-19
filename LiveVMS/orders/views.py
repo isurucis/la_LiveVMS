@@ -18,5 +18,6 @@ class ShipmentDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Include the products associated with this campaign
-        context['products'] = self.object.campaign_products.select_related('product')
+        context['products'] = self.object.products.select_related('shipment')
+        
         return context
