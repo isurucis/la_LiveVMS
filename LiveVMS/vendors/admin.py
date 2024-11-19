@@ -10,8 +10,8 @@ class ProductInline(admin.TabularInline):
 class VendorResource(resources.ModelResource):
     class Meta:
         model = Vendor
-        exclude = ('id',)
         fields = ('name', 'etf_vendor_code', 'vendor_id', 'country', 'status')
+        import_id_fields = ('vendor_id',)
 
 @admin.register(Vendor)
 class VendorAdmin(ImportExportModelAdmin):
