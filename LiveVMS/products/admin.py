@@ -17,10 +17,12 @@ class ProductCategoryResource(resources.ModelResource):
         # exclude = ('id',)
         import_id_fields = ('name',)  # Use 'name' as the identifier for import
 
+
+@admin.register(ProductCategory)
 class ProductCategoryAdmin(ImportExportModelAdmin, DraggableMPTTAdmin):
     resource_class = ProductCategoryResource
 
-admin.site.register(ProductCategory, ProductCategoryAdmin)
+
 
 class ProductResource(resources.ModelResource):
     class Meta:
