@@ -4,13 +4,24 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 
-@admin.register(ProductCategory)
-class ProductCategoryAdmin(DraggableMPTTAdmin):
-    mptt_indent_field = "name"
-    list_display = ('tree_actions', 'indented_title', 'parent')
-    list_filter = ('parent',)
-    search_fields = ('name',)
+
     
+
+class ProductCategoryResource(resources.ModelResource):
+    parent = resources.ForeignKeyWidget(ProductCategory, 'name')
+
+    class Meta:
+        model = ProductCategory
+        fields = ('name', 'parent', 'level', 'tree_id', 'lft', 'rght')
+        # Optional: Exclude fields you don't want to import/export (e.g., 'id')
+        # exclude = ('id',)
+        import_id_fields = ('name',)  # Use 'name' as the identifier for import
+
+class ProductCategoryAdmin(ImportExportModelAdmin, DraggableMPTTAdmin):
+    resource_class = ProductCategoryResource
+
+admin.site.register(ProductCategory, ProductCategoryAdmin)
+
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
