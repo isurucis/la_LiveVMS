@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'LiveVMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'aggregatedvendor$default',
+        'NAME': 'aggregatedvendor$livevms',
         'USER': 'aggregatedvendor',
         'PASSWORD': 'Isuru@1984',
         'HOST': 'aggregatedvendor.mysql.pythonanywhere-services.com',
