@@ -9,11 +9,8 @@
 </head>
 <body>
     <header>
-        {% block head %}{% endblock %}
         <h1>Campaign Management System</h1>
-        <nav>
-            <a href="{% url 'campaign_calendar' %}">Campaign Calendar</a>
-        </nav>
+        {% block head %}{% endblock %}
     </header>
     <main>
         {% block content %}{% endblock %}
