@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block head %}
+<h1>Campaign Management System</h1>
+        <nav>
+            <a href="{% url 'campaign_calendar' %}">Campaign Calendar</a>
+        </nav>
+{% endblock %}
+
 {% block content %}
 <h1>Shipment Calendar</h1>
 

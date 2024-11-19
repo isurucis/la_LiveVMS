@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block head %}
+<h1>Campaign Management System</h1>
+        <nav>
+            <a href="{% url 'campaign_calendar' %}">Campaign Calendar</a>
+        </nav>
+{% endblock %}
+
 {% block content %}
 <h1>{{ object.name }} Campaign</h1>
 <p>Type: {{ object.campaign_type }}</p>

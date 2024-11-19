@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
+{% block head %}
+<h1>Campaign Management System</h1>
+        <nav>
+            <a href="{% url 'shipment_calendar' %}">Shipment Calendar</a>
+        </nav>
+{% endblock %}
+
 {% block content %}
-<h1>{{ object.name }} Shipment</h1>
+<h1>{{ object.name }}</h1>
 <p>airport: {{ object.airport }}</p>
 <p>Arrival Date: {{ object.date_of_arrival }}</p>
 <p>Origin: {{ object.country_of_origin }}</p>
