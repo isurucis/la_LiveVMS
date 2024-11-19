@@ -11,7 +11,7 @@ class ProductCategoryResource(resources.ModelResource):
 
     class Meta:
         model = ProductCategory
-        fields = ('name', 'parent', 'level', 'tree_id', 'lft', 'rght')
+        fields = ('name', 'parent',)
         # Optional: Exclude fields you don't want to import/export (e.g., 'id')
         # exclude = ('id',)
         import_id_fields = ('name',)  # Use 'name' as the identifier for import
