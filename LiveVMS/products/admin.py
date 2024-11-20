@@ -20,6 +20,7 @@ class ProductCategoryResource(resources.ModelResource):
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(ImportExportModelAdmin, DraggableMPTTAdmin):
     resource_class = ProductCategoryResource
+    list_display = ('id','name',)
 
 
 
