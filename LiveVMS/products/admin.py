@@ -44,7 +44,7 @@ class CategoryFilter(admin.SimpleListFilter):
 @admin.register(Product)
 class ProductAdmin(ImportExportModelAdmin):
     resource_class = ProductResource
-    list_display = ('name', 'scientific_name', 'category', 'vendor', 'stock', 'price', 'is_active', 'created_date')
+    list_display = ('id','name', 'scientific_name', 'category', 'vendor', 'stock', 'price', 'is_active', 'created_date')
     list_filter = (CategoryFilter, 'vendor', 'is_active')
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
