@@ -20,7 +20,7 @@ class Product(models.Model):
     scientific_name = models.CharField(max_length=255, null=True, blank=True)
     family = models.CharField(max_length=255, null=True, blank=True)
     size = models.CharField(max_length=255, null=True, blank=True)
-    length = models.DecimalField(max_digits=10, decimal_places=2)
+    length = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, to_field='vendor_id')  # Explicitly reference vendor_id
     vendor_code = models.CharField(max_length=50, null=True, blank=True)
     cis_code = models.CharField(max_length=50, null=True, blank=True)
