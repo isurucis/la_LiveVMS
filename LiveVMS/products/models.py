@@ -18,7 +18,7 @@ class ProductCategory(MPTTModel):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     scientific_name = models.CharField(max_length=255, null=True, blank=True)
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    family = models.CharField(max_length=255, null=True, blank=True)
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, to_field='vendor_id')  # Explicitly reference vendor_id
     vendor_code = models.CharField(max_length=50, null=True, blank=True)
     cis_code = models.CharField(max_length=50, null=True, blank=True)
