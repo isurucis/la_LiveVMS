@@ -114,7 +114,7 @@ UNFOLD = {
     "SHOW_HISTORY": True, # show/hide "History" button, default: True
     "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
     # # "ENVIRONMENT": "sample_app.environment_callback",
-    "DASHBOARD_CALLBACK": "LiveVMS.views.dashboard_callback",
+    "DASHBOARD_CALLBACK": "LiveVMS.utils.dashboard_callback",
     # "THEME": "dark", # Force theme: "dark" or "light". Will disable theme switcher
     "LOGIN": {
         "image": lambda request: static("images/login-bg.jpg"),
