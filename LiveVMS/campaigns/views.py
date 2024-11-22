@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from .models import Campaign
 class CampaignCalendarView(TemplateView):
-    template_name = 'calendar.html'
+    template_name = 'campaigns/calendar.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -13,7 +13,7 @@ class CampaignCalendarView(TemplateView):
 
 class CampaignDetailView(DetailView):
     model = Campaign
-    template_name = 'detail.html'
+    template_name = 'campaigns/detail.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
