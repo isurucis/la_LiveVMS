@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from .models import Shipment
+
 class ShipmentCalendarView(TemplateView):
     template_name = 'shipment.html'
     

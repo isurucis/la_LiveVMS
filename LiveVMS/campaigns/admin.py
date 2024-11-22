@@ -17,6 +17,6 @@ class CampaignAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_date'
 
 
-admin.site.site_header = "LiveVMS Admin"
-admin.site.site_title = "Live VMS"
-admin.site.index_title = "Live VMS"
+# admin.site.site_header = "LiveVMS Admin"
+# admin.site.site_title = "Live VMS"
+# admin.site.index_title = "Live VMS"
