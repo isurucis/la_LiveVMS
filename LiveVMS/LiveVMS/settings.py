@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +28,19 @@ SECRET_KEY = 'django-insecure-u7l7ftm#^ndni9hxv%1w1lh7wgd9gdwiu26xcg7c42!rf)8kxa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aggregatedvendor.pythonanywhere.com']
+ALLOWED_HOSTS = ['aggregatedvendor.pythonanywhere.com','127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",  # before django.contrib.admin
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
+    "unfold.contrib.inlines",  # optional, if special inlines are needed
+    "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    "unfold.contrib.simple_history",  # optional, if django-simple-history package is used
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,20 +87,137 @@ TEMPLATES = [
 WSGI_APPLICATION = 'LiveVMS.wsgi.application'
 
 
+
+UNFOLD = {
+    "SITE_TITLE": "LiveCROM",
+    "SITE_HEADER": "Campaign Roll-out  Manager",
+    "SITE_URL": "/",
+    "SITE_ICON": lambda request: static("images/livecrom.svg"),  # both modes, optimise for 32px height
+    # "SITE_ICON": {
+    #     "light": lambda request: static("icon-light.svg"),  # light mode
+    #     "dark": lambda request: static("icon-dark.svg"),  # dark mode
+    # },
+    # "SITE_LOGO": lambda request: static("logo.svg"),  # both modes, optimise for 32px height
+    "SITE_LOGO": {
+        "light": lambda request: static("images/laqlogo.svg"),  # light mode
+        "dark": lambda request: static("images/logo.png"),  # dark mode
+    },
+    "SITE_SYMBOL": "speed",  # symbol from icon set
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "sizes": "32x32",
+            "type": "image/svg+xml",
+            "href": lambda request: static("images/livecrom.svg"),
+        },
+    ],
+    "SHOW_HISTORY": True, # show/hide "History" button, default: True
+    "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
+    # # "ENVIRONMENT": "sample_app.environment_callback",
+    "DASHBOARD_CALLBACK": "LiveVMS.views.dashboard_callback",
+    # "THEME": "dark", # Force theme: "dark" or "light". Will disable theme switcher
+    "LOGIN": {
+        "image": lambda request: static("images/login-bg.jpg"),
+        # "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
+    },
+    # "STYLES": [
+    #     lambda request: static("css/style.css"),
+    # ],
+    # "SCRIPTS": [
+    #     lambda request: static("js/script.js"),
+    # ],
+    # "COLORS": {
+    #     "font": {
+    #         "subtle-light": "107 114 128",
+    #         "subtle-dark": "156 163 175",
+    #         "default-light": "75 85 99",
+    #         "default-dark": "209 213 219",
+    #         "important-light": "17 24 39",
+    #         "important-dark": "243 244 246",
+    #     },
+    #     "primary": {
+    #         "50": "250 245 255",
+    #         "100": "243 232 255",
+    #         "200": "233 213 255",
+    #         "300": "216 180 254",
+    #         "400": "192 132 252",
+    #         "500": "168 85 247",
+    #         "600": "147 51 234",
+    #         "700": "126 34 206",
+    #         "800": "107 33 168",
+    #         "900": "88 28 135",
+    #         "950": "59 7 100",
+    #     },
+    # },
+    # "EXTENSIONS": {
+    #     "modeltranslation": {
+    #         "flags": {
+    #             "en": "🇬🇧",
+    #             "fr": "🇫🇷",
+    #             "nl": "🇧🇪",
+    #         },
+    #     },
+    # },
+    # "SIDEBAR": {
+    #     "show_search": False,  # Search in applications and models names
+    #     "show_all_applications": False,  # Dropdown with all applications and models
+    #     "navigation": [
+    #         {
+    #             "title": _("Navigation"),
+    #             "separator": True,  # Top border
+    #             "collapsible": True,  # Collapsible group of links
+    #             "items": [
+    #                 {
+    #                     "title": _("Dashboard"),
+    #                     "icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+    #                     "link": reverse_lazy("admin:index"),
+    #                     "badge": "sample_app.badge_callback",
+    #                     "permission": lambda request: request.user.is_superuser,
+    #                 },
+    #                 {
+    #                     "title": _("Users"),
+    #                     "icon": "people",
+    #                     "link": reverse_lazy("admin:users_user_changelist"),
+    #                 },
+    #             ],
+    #         },
+    #     ],
+    # },
+    # "TABS": [
+    #     {
+    #         "models": [
+    #             "app_label.model_name_in_lowercase",
+    #         ],
+    #         "items": [
+    #             {
+    #                 "title": _("Your custom title"),
+    #                 "link": reverse_lazy("admin:app_label_model_name_changelist"),
+    #                 "permission": "sample_app.permission_callback",
+    #             },
+    #         ],
+    #     },
+    # ],
+}
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'aggregatedvendor$default',
-        'USER': 'aggregatedvendor',
-        'PASSWORD': 'Isuru@1984',
-        'HOST': 'aggregatedvendor.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'aggregatedvendor$default',
+       'USER': 'aggregatedvendor',
+       'PASSWORD': 'Isuru@1984',
+       'HOST': 'aggregatedvendor.mysql.pythonanywhere-services.com',
+       'PORT': '3306',
+   }
 }
 
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -127,6 +254,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "LiveVMS" / "static"]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
