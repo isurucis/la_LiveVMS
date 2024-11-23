@@ -48,11 +48,11 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     resource_class = ProductResource
-    list_display = ('id','name', 'scientific_name', 'size', 'length', 'family', 'vendor', 'stock', 'price', 'is_active', 'created_date')
+    list_display = ('id','name', 'scientific_name', 'size', 'length', 'family', 'vendor', 'stock', 'price', 'is_active', 'updated_date')
     list_filter = ( 'family', 'vendor', 'is_active')
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
-    readonly_fields = ('created_date',)
+    readonly_fields = ('created_date', 'updated_date', 'updated_person')
     autocomplete_fields = ["vendor"]
 
 # admin.site.site_header = "LiveVMS Admin"

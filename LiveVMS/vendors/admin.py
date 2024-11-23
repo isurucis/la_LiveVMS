@@ -28,6 +28,7 @@ class ProductInline(TabularInline):
     model = Product
     extra = 1
     tab = True
+    readonly_fields = ('created_date', 'updated_date', 'updated_person')
 class VendorResource(resources.ModelResource):
     class Meta:
         model = Vendor
