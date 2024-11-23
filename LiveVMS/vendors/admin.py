@@ -27,7 +27,7 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
 class ProductInline(TabularInline):
     model = Product
     extra = 1
-    
+    tab = True
 class VendorResource(resources.ModelResource):
     class Meta:
         model = Vendor
