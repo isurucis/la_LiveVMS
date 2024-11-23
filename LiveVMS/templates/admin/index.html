@@ -23,7 +23,7 @@
     {% component "unfold/components/card.html" with class="lg:w-1/2" title=title %}
     <div id="ship_calendar"></div>
     {% endcomponent %}
-    {% trans "Shipment Calendar" as title %}
+    {% trans "Campaign Calendar" as title %}
     {% component "unfold/components/card.html" with class="lg:w-1/2" title=title %}
     <div id="camp_calendar"></div>
     {% endcomponent %}
@@ -57,8 +57,20 @@
             url: "{% url 'shipment_detail' shipment.pk %}",
             
             {% if  shipment.status == 'pending' %}
-            color: 'yellow', 
-            textColor: 'black'
+            color: '#fcd34d', 
+            textColor: '#92400e'
+            {% elif  shipment.status == 'transit' %}
+            color: '#c084fc', 
+            textColor: '#6b21a8'
+            {% elif  shipment.status == 'arrived' %}
+            color: '#a3e635', 
+            textColor: '#3f6212'
+            {% elif  shipment.status == 'delivered' %}
+            color: 'Green', 
+            textColor: '#052e16'
+            {% elif  shipment.status == 'canceled' %}
+            color: '#fca5a5', 
+            textColor: '#991b1b'
             {% endif %}
             
             }{% if not forloop.last %},{% endif %}
