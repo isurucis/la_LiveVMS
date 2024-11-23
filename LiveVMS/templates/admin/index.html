@@ -18,15 +18,49 @@
 
 {% block content %}
 
+
+<div  x-data="{ activeTab:  0 }">
+    <div  class="bg-gray-100 flex gap-2 mb-8 p-1 rounded text-sm dark:bg-white/[.04]">
+       
+      <label
+        data-tab="ship_calendar"
+        @click="activeTab = 0"
+        class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
+        :class="{ 'bg-primary-600 text-white': activeTab === 0 }"
+      >Shipment Calendar</label>
+      <label
+        data-tab="camp_calendar"
+        @click="activeTab = 1"
+        class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
+        :class="{ 'bg-primary-600 text-white': activeTab === 1 }"
+      >Campaign Calendar</label>
+      <label
+        @click="activeTab = 2"
+        class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
+        :class="{ 'bg-primary-600 text-white': activeTab === 2 }"
+      >Tab 3</label>
+    </div>
+  
+    <div class="tab-panel" :class="{ 'active': activeTab === 0 }" x-show.transition.in.opacity.duration.600="activeTab === 0">
+        {% trans "Shipment Calendar" as title %}
+        {% component "unfold/components/card.html" with title=title %}
+        <div id="ship_calendar"></div>
+        {% endcomponent %}
+    </div>
+    <div class="tab-panel" :class="{ 'active': activeTab === 1 }" x-show.transition.in.opacity.duration.600="activeTab === 1">
+        {% trans "Campaign Calendar" as title %}
+        {% component "unfold/components/card.html" with title=title %}
+        <div id="camp_calendar"></div>
+        {% endcomponent %}
+    </div>
+    <div class="tab-panel" :class="{ 'active': activeTab === 2 }" x-show.transition.in.opacity.duration.600="activeTab === 2">
+      <p>The content of the third and final tab in this set.</p>
+    </div>
+  </div> 
+  
 {% component "unfold/components/flex.html" with class="gap-8 mb-8 flex-col lg:flex-row" %}
-    {% trans "Shipment Calendar" as title %}
-    {% component "unfold/components/card.html" with class="lg:w-1/2" title=title %}
-    <div id="ship_calendar"></div>
-    {% endcomponent %}
-    {% trans "Campaign Calendar" as title %}
-    {% component "unfold/components/card.html" with class="lg:w-1/2" title=title %}
-    <div id="camp_calendar"></div>
-    {% endcomponent %}
+    
+    
 {% endcomponent %}
 
 
@@ -37,7 +71,8 @@
 
 <script>
 
-    document.addEventListener('DOMContentLoaded', function() {
+    {% comment %} document.addEventListener('DOMContentLoaded', function() {
+     
       var ship_calendarEl = document.getElementById('ship_calendar');
   
       var ship_calendar = new FullCalendar.Calendar(ship_calendarEl, {
@@ -103,7 +138,91 @@
         });
     
         camp_calendar.render();
-    });
+    }); {% endcomment %}
 
+    document.addEventListener('DOMContentLoaded', function () {
+  // Initialize the first calendar
+  var ship_calendarEl = document.getElementById('ship_calendar');
+  var ship_calendar = new FullCalendar.Calendar(ship_calendarEl, {
+    initialView: 'dayGridMonth',
+    initialDate: '2024-10-07',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    events: [
+      {% for shipment in shipments %}
+      {
+        title: "{{ shipment.name }}",
+        start: "{{ shipment.date_of_arrival|date:'Y-m-d' }}",
+        end: "{{ shipment.date_of_arrival|date:'Y-m-d' }}",
+        url: "{% url 'shipment_detail' shipment.pk %}",
+        {% if shipment.status == 'pending' %}
+        color: '#fcd34d',
+        textColor: '#92400e'
+        {% elif shipment.status == 'transit' %}
+        color: '#c084fc',
+        textColor: '#6b21a8'
+        {% elif shipment.status == 'arrived' %}
+        color: '#a3e635',
+        textColor: '#3f6212'
+        {% elif shipment.status == 'delivered' %}
+        color: 'Green',
+        textColor: '#052e16'
+        {% elif shipment.status == 'canceled' %}
+        color: '#fca5a5',
+        textColor: '#991b1b'
+        {% endif %}
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  });
+  ship_calendar.render();
+
+  // Initialize the second calendar
+  var camp_calendarEl = document.getElementById('camp_calendar');
+  var camp_calendar = new FullCalendar.Calendar(camp_calendarEl, {
+    initialView: 'dayGridMonth',
+    initialDate: '2024-10-07',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    events: [
+      {% for campaign in campaigns %}
+      {
+        title: "{{ campaign.name }}",
+        start: "{{ campaign.start_date|date:'Y-m-d' }}",
+        end: "{{ campaign.end_date|date:'Y-m-d' }}",
+        url: "{% url 'campaign_detail' campaign.pk %}",
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  });
+  camp_calendar.render();
+
+  // Re-render the second calendar when its tab becomes active
+  document.querySelector('[data-tab="ship_calendar"]').addEventListener('click', function () {
+    // Trigger resize after tab switch
+    setTimeout(function () {
+      ship_calendarEl.style.display = 'block'; // Ensure visibility
+      ship_calendar.updateSize(); // Force recalculation
+      window.dispatchEvent(new Event('resize')); // Trigger a global resize event
+    }, 200);
+  });
+  document.querySelector('[data-tab="camp_calendar"]').addEventListener('click', function () {
+    // Trigger resize after tab switch
+    setTimeout(function () {
+      camp_calendarEl.style.display = 'block'; // Ensure visibility
+      camp_calendar.updateSize(); // Force recalculation
+      window.dispatchEvent(new Event('resize')); // Trigger a global resize event
+    }, 200);
+  });
+
+});
+
+      
 </script>
 {% endblock %}
