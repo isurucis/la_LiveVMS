@@ -53,6 +53,7 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date',)
+    autocomplete_fields = ["vendor"]
 
 # admin.site.site_header = "LiveVMS Admin"
 # admin.site.site_title = "Live VMS"
