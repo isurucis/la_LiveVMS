@@ -43,13 +43,30 @@ class ProductResource(resources.ModelResource):
 #             return queryset.filter(category__id=self.value())
 #         return queryset
 
+class InStockFilter(admin.SimpleListFilter):
+    title = 'In Stock'
+    parameter_name = 'in_stock'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', 'In Stock'),
+            ('no', 'Out of Stock'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.filter(stock__gt=0)
+        elif self.value() == 'no':
+            return queryset.filter(stock=0)
+        return queryset
+    
 @admin.register(Product)
 class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     resource_class = ProductResource
     list_display = ('id','name', 'scientific_name', 'size', 'length', 'family', 'vendor', 'stock', 'price', 'is_active', 'updated_date')
-    list_filter = ( 'family', 'vendor', 'is_active')
+    list_filter = ( 'family', 'vendor', 'is_active',InStockFilter,)
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date', 'updated_date', 'updated_person')
