@@ -13,10 +13,16 @@ class CampaignProductInline(TabularInline):
     tab = True
     raw_id_fields= ["product",]
 
-class CampaignPromolInline(TabularInline):
+class CampaignPromolInline(StackedInline):
+    formfield_overrides = {
+        models.TextField: {
+            'widget': WysiwygWidget,
+            #'initial': "<b>BACKGROUND</b><ul><li>point one</li></ul> <b>EXPECTED KPIs</b><ul><li>point one</li></ul> <b>SEGMENTATION</b><ul><li>point one</li></ul> <b>MESSAGES</b><ul><li>point one</li></ul> <b>LOOK & FEEL</b><ul><li>point one</li></ul>",
+        }
+    }
     model = CampaignPromo
     extra = 1
-    tab = True
+    #tab = True
 
 @admin.register(Campaign)
 class CampaignAdmin(ModelAdmin):
