@@ -38,8 +38,7 @@ class CampaignPromo(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='campaign_promo')
     name = models.CharField(max_length=255)
     channel = models.CharField(max_length=50,choices=CHANNEL_CHOICES,)
-    schedule_date = models.DateField()
-    schedule_time = models.TimeField()
+    schedule_date = models.DateTimeField()
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
