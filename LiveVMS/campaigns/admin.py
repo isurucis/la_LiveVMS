@@ -5,13 +5,38 @@ from .models import  Campaign, CampaignProduct, CampaignPromo
 from .forms import CampaignForm 
 from unfold.admin import StackedInline, TabularInline
 from unfold.contrib.forms.widgets import WysiwygWidget
+from django.utils.html import format_html
 
 
 class CampaignProductInline(TabularInline):
     model = CampaignProduct
-    extra = 1
+    extra = 0
     tab = True
     raw_id_fields= ["product",]
+    
+    def get_readonly_fields(self, request, obj=None):
+        return ('product_stock', 'product_price', 'new_discounted_price', 'short_qty') + self.readonly_fields
+
+    def product_stock(self, obj):
+        return obj.product_stock()
+
+    def product_price(self, obj):
+        return obj.product_price()
+
+    def new_discounted_price(self, obj):
+        #return format_html('<span>${:.2f}</span>', obj.new_discounted_price()) if obj.new_discounted_price() != 'N/A' else 'N/A'
+        return obj.new_discounted_price()
+
+    def short_qty(self, obj):
+        return obj.short_qty()
+
+    product_stock.short_description = 'Stock'
+    product_price.short_description = 'Price'
+    new_discounted_price.short_description = 'Discounted Price'
+    short_qty.short_description = 'Short Quantity'
+
+    fields = ('product', 'product_stock', 'product_price', 'qty_required', 'discount', 'new_discounted_price', 'short_qty')
+    
 
 class CampaignPromolInline(StackedInline):
     formfield_overrides = {
@@ -21,8 +46,8 @@ class CampaignPromolInline(StackedInline):
         }
     }
     model = CampaignPromo
-    extra = 1
-    #tab = True
+    extra = 0
+    tab = True
 
 @admin.register(Campaign)
 class CampaignAdmin(ModelAdmin):

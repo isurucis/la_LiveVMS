@@ -21,9 +21,34 @@ class Campaign(models.Model):
 class CampaignProduct(models.Model):
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='campaign_products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    qty_required = models.PositiveIntegerField(default=0, verbose_name="Quantity Required")
+    discount = models.DecimalField(default=0.0, max_digits=5, decimal_places=2, verbose_name="Discount (%)")
+
+    def product_stock(self):
+        return self.product.stock if hasattr(self.product, 'stock') else 'N/A'
+
+    def product_price(self):
+        return self.product.price if hasattr(self.product, 'price') else 'N/A'
+
+    def new_discounted_price(self):
+        if self.product_price() != 'N/A':
+            discount_amount = self.product_price() * (self.discount / 100)
+            return self.product_price() - discount_amount
+        return 'N/A'
+
+    def short_qty(self):
+        if self.qty_required > self.product_stock():
+            return self.qty_required - self.product_stock()
+        return 0
+
+    product_stock.short_description = 'Stock'
+    product_price.short_description = 'Price'
+    new_discounted_price.short_description = 'Discounted Price'
+    short_qty.short_description = 'Short Quantity'
 
     def __str__(self):
         return f"{self.campaign.name} - {self.product.name}"
+
 
 class CampaignPromo(models.Model):
     CHANNEL_CHOICES = [
