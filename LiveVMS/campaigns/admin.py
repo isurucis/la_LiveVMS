@@ -39,15 +39,14 @@ class CampaignProductInline(TabularInline):
     
 
 class CampaignPromolInline(StackedInline):
-    formfield_overrides = {
-        models.TextField: {
-            'widget': WysiwygWidget,
-            #'initial': "<b>BACKGROUND</b><ul><li>point one</li></ul> <b>EXPECTED KPIs</b><ul><li>point one</li></ul> <b>SEGMENTATION</b><ul><li>point one</li></ul> <b>MESSAGES</b><ul><li>point one</li></ul> <b>LOOK & FEEL</b><ul><li>point one</li></ul>",
-        }
-    }
+    # formfield_overrides = {
+    #     models.TextField: {
+    #         'widget': WysiwygWidget,
+    #     }
+    # }
     model = CampaignPromo
-    extra = 0
-    tab = True
+    #extra = 1  # Set to 1 to display the "Add another" button correctly
+    tab = True  # Ensure this option is compatible with your admin interface
 
 @admin.register(Campaign)
 class CampaignAdmin(ModelAdmin):
