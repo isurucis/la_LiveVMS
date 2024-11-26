@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head %}
+        <nav>
+          <a href="{% url 'admin:index' %}">Dashboard</a>
+        </nav>
+{% endblock %}
+
+{% block content %}
+<h1>{{ campaignpromo.name }}</h1>
+    <p><strong>Campaign:</strong> {{ campaignpromo.campaign.name }}</p>
+    <p><strong>Channel:</strong> {{ campaignpromo.get_channel_display }}</p>
+    <p><strong>Scheduled Date:</strong> {{ campaignpromo.schedule_date }}</p>
+    <p><strong>Description:</strong> {{ campaignpromo.description|default:"No description provided" }}</p>
+    <p><strong>Related Campaign Type:</strong> {{ campaignpromo.campaign.get_campaign_type_display }}</p>
+{% endblock %}

@@ -153,7 +153,24 @@
       {
         title: "{{ schedule.name }}",
         start: "{{ schedule.schedule_date|date:'Y-m-d' }}T{{ schedule.schedule_date|time:'H:i:s' }}",
-        url: "{% url 'campaign_detail' schedule.pk %}",
+        url: "{% url 'schedule-detail' schedule.pk %}",
+        {% if schedule.channel == 'email' %}
+    color: 'LightSkyBlue', 
+{% elif schedule.channel == 'fb' %}
+    color: 'RoyalBlue', 
+{% elif schedule.channel == 'insta' %}
+    color: 'MediumVioletRed', 
+{% elif schedule.channel == 'tiktok' %}
+    color: 'SlateGray', 
+{% elif schedule.channel == 'youtube' %}
+    color: 'Crimson', 
+{% elif schedule.channel == 'website' %}
+    color: 'Gold', 
+{% elif schedule.channel == 'forum' %}
+    color: 'Lime', 
+{% endif %}
+
+
       }{% if not forloop.last %},{% endif %}
       {% endfor %}
     ]
