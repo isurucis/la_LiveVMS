@@ -19,6 +19,7 @@ class CampaignDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # Include the products associated with this campaign
         context['products'] = self.object.campaign_products.select_related('product')
+        context['schedules'] = self.object.campaign_promo.all()
         return context
 
 # class ScheduleDetailView(DetailView):

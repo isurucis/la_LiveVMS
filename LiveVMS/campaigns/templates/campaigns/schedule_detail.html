@@ -1,16 +1,39 @@
 {% extends "base.html" %}
 
 {% block head %}
-        <nav>
-          <a href="{% url 'admin:index' %}">Dashboard</a>
-        </nav>
+  <!-- Include Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+    .content p strong {
+      color: #3273dc; /* Bulma primary color */
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
-<h1>{{ campaignpromo.name }}</h1>
-    <p><strong>Campaign:</strong> {{ campaignpromo.campaign.name }}</p>
-    <p><strong>Channel:</strong> {{ campaignpromo.get_channel_display }}</p>
-    <p><strong>Scheduled Date:</strong> {{ campaignpromo.schedule_date }}</p>
-    <p><strong>Description:</strong> {{ campaignpromo.description|default:"No description provided" }}</p>
-    <p><strong>Related Campaign Type:</strong> {{ campaignpromo.campaign.get_campaign_type_display }}</p>
+<div class="container">
+  <!-- Dashboard Navigation -->
+  <nav class="navbar is-link">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{% url 'admin:index' %}">Dashboard</a>
+    </div>
+  </nav>
+
+  <!-- Campaign Promotion Details -->
+  <section class="section">
+    <div class="box">
+      <h1 class="title is-3">{{ campaignpromo.name }}</h1>
+      <div class="content">
+        <p><strong>Campaign:</strong> {{ campaignpromo.campaign.name }}</p>
+        <p><strong>Channel:</strong> {{ campaignpromo.get_channel_display }}</p>
+        <p><strong>Scheduled Date:</strong> {{ campaignpromo.schedule_date }}</p>
+        <p><strong>Description:</strong> {{ campaignpromo.description|default:"No description provided" }}</p>
+        <p><strong>Related Campaign Type:</strong> {{ campaignpromo.campaign.get_campaign_type_display }}</p>
+      </div>
+    </div>
+  </section>
+</div>
 {% endblock %}

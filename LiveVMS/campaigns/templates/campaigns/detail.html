@@ -1,21 +1,128 @@
 {% extends "base.html" %}
 
 {% block head %}
-        <nav>
-          <a href="{% url 'admin:index' %}">Dashboard</a>
-        </nav>
+  <!-- Include Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+    .tag.is-warning { background-color: #f39c12; color: #fff; }
+    .tag.is-secondary { background-color: #34495e; color: #fff; }
+  </style>
 {% endblock %}
 
 {% block content %}
-<h1>{{ object.name }} Campaign</h1>
-<p>Type: {{ object.campaign_type }}</p>
-<p>Start Date: {{ object.start_date }}</p>
-<p>End Date: {{ object.end_date }}</p>
+  <div class="container">
+    <!-- Dashboard Navigation -->
+    <nav class="navbar is-link">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'admin:index' %}">Dashboard</a>
+      </div>
+    </nav>
 
-<h2>Products in Campaign</h2>
-<ul>
-  {% for campaign_product in products %}
-    <li>{{ campaign_product.product.name }}</li>
-  {% endfor %}
-</ul>
+    <!-- Campaign Details -->
+    <section class="section">
+      <h1 class="title is-3">{{ object.name }} Campaign</h1>
+      <p><strong>Type:</strong> {{ object.campaign_type }}</p>
+      <p><strong>Start Date:</strong> {{ object.start_date }}</p>
+      <p><strong>End Date:</strong> {{ object.end_date }}</p>
+
+      <h2 class="subtitle is-4">Products in Campaign</h2>
+      
+      <table class="table is-fullwidth is-bordered is-striped">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Stock</th>
+            <th>Quantity Required</th>
+            <th>Price</th>
+            <th>Discount (%)</th>
+            <th>Discounted Price</th>
+            <th>Short Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for campaign_product in products %}
+            <tr>
+              <td>{{ campaign_product.product.name }}</td>
+              <td>
+                <span class="tag is-info">{{ campaign_product.product_stock }}</span>
+              </td>
+              <td>
+                <span class="tag is-secondary">{{ campaign_product.qty_required }}</span>
+              </td>
+              <td>
+                <span class="tag is-primary">${{ campaign_product.product_price }}</span>
+              </td>
+              <td>
+                <span class="tag is-warning">{{ campaign_product.discount }}%</span>
+              </td>
+              <td>
+                {% if campaign_product.new_discounted_price != "N/A" %}
+                  <span class="tag is-success">${{ campaign_product.new_discounted_price }}</span>
+                {% else %}
+                  <span class="tag is-danger">N/A</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if campaign_product.short_qty > 0 %}
+                  <span class="tag is-danger">{{ campaign_product.short_qty }}</span>
+                {% else %}
+                  <span class="tag is-success">No Shortage</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+
+  schedules
+  <div id="schedule_calendar"></div>
+  
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+  
+  <script>
+  // Initialize the second calendar
+  var schedule_calendarEl = document.getElementById('schedule_calendar');
+  var schedule_calendar = new FullCalendar.Calendar(schedule_calendarEl, {
+    initialView: 'dayGridMonth',
+    initialDate: '2024-10-07',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
+    },
+    events: [
+      {% for schedule in schedules %}
+      {
+        title: "{{ schedule.name }}",
+        start: "{{ schedule.schedule_date|date:'Y-m-d' }}T{{ schedule.schedule_date|time:'H:i:s' }}",
+        url: "{% url 'schedule-detail' schedule.pk %}",
+        {% if schedule.channel == 'email' %}
+    color: 'LightSkyBlue', 
+{% elif schedule.channel == 'fb' %}
+    color: 'RoyalBlue', 
+{% elif schedule.channel == 'insta' %}
+    color: 'MediumVioletRed', 
+{% elif schedule.channel == 'tiktok' %}
+    color: 'SlateGray', 
+{% elif schedule.channel == 'youtube' %}
+    color: 'Crimson', 
+{% elif schedule.channel == 'website' %}
+    color: 'Gold', 
+{% elif schedule.channel == 'forum' %}
+    color: 'Lime', 
+{% endif %}
+
+
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  });
+  schedule_calendar.render();
+</script>
 {% endblock %}

@@ -1,24 +1,55 @@
 {% extends "base.html" %}
 
 {% block head %}
-        <nav>
-            <a href="{% url 'admin:index' %}">Dashboard</a>
-        </nav>
+  <!-- Include Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
-<h1>{{ object.name }}</h1>
-<p>airport: {{ object.airport }}</p>
-<p>Arrival Date: {{ object.date_of_arrival }}</p>
-<p>Origin: {{ object.country_of_origin }}</p>
-<p>Status: {{ object.status }}</p>
+  <div class="container">
+    <!-- Dashboard Navigation -->
+    <nav class="navbar is-link">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'admin:index' %}">Dashboard</a>
+      </div>
+    </nav>
 
-<h2>Products in Shipment</h2>
-<ul>
-  {% for product in products %}
-    <li>
-      {{ product.name }} ({{ product.size }}) - {{ product.quantity }}
-    </li>
-  {% endfor %}
-</ul>
+    <!-- Shipment Details -->
+    <section class="section">
+      <h1 class="title is-3">{{ object.name }}</h1>
+      <p><strong>Airport:</strong> {{ object.airport }}</p>
+      <p><strong>Arrival Date:</strong> {{ object.date_of_arrival }}</p>
+      <p><strong>Origin:</strong> {{ object.country_of_origin }}</p>
+      <p><strong>Status:</strong> 
+        <span class="tag {% if object.status == 'delivered' %}is-success{% elif object.status == 'arrived' %}is-primary{% elif object.status == 'transit' %}is-info{% elif object.status == 'pending' %}is-warning{% elif object.status == 'canceled' %}is-danger{% endif %}">
+          {{ object.status }}
+        </span>
+      </p>
+
+      <h2 class="subtitle is-4">Products in Shipment</h2>
+      
+      <div class="box">
+        <ul>
+          {% for product in products %}
+            <li class="columns is-vcentered">
+              <div class="column is-8">
+                <strong>{{ product.name }}</strong> ({{ product.size }})
+              </div>
+              <div class="column is-4 has-text-right">
+                <span class="tag is-primary">{{ product.quantity }}</span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </section>
+  </div>
 {% endblock %}
+
+
