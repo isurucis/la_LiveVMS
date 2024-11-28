@@ -117,7 +117,7 @@ UNFOLD = {
     "DASHBOARD_CALLBACK": "LiveVMS.utils.dashboard_callback",
     # "THEME": "dark", # Force theme: "dark" or "light". Will disable theme switcher
     "LOGIN": {
-        "image": lambda request: static("images/login-bg.jpg"),
+        "image": lambda request: static("images/login-bg-min.jpg"),
         # "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
     },
     # "STYLES": [
