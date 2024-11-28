@@ -40,6 +40,18 @@
         class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
         :class="{ 'bg-primary-600 text-white': activeTab === 2 }"
       >Schedule Calendar</label>
+      <label
+        data-tab="camp_report"
+        @click="activeTab = 3"
+        class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
+        :class="{ 'bg-primary-600 text-white': activeTab === 3 }"
+      >States Report</label>
+      <label
+        data-tab="stat_report"
+        @click="activeTab = 4"
+        class="border font-medium px-3 py-2 rounded-md text-center  border-transparent text-font-subtle-light"
+        :class="{ 'bg-primary-600 text-white': activeTab === 4 }"
+      >Campaign Report</label>
     </div>
   
     <div class="tab-panel" :class="{ 'active': activeTab === 0 }" x-show.transition.in.opacity.duration.600="activeTab === 0">
@@ -58,6 +70,130 @@
       {% trans "Schedule Calendar" as title %}
       {% component "unfold/components/card.html" with title=title %}
       <div id="schedule_calendar"></div>
+      {% endcomponent %}
+    </div>
+    <div class="tab-panel" :class="{ 'active': activeTab === 3 }" x-show.transition.in.opacity.duration.600="activeTab === 3">
+      {% trans "State Report" as title %}
+      {% component "unfold/components/card.html" with title=title %}
+      <iframe width="100%" height="650" src="https://lookerstudio.google.com/embed/reporting/7c65f703-578d-4b1e-ac75-be5066ca3d36/page/NheWE" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+
+      {% endcomponent %}
+    </div>
+    <div class="tab-panel" :class="{ 'active': activeTab === 4 }" x-show.transition.in.opacity.duration.600="activeTab === 4">
+      {% trans "Campaign Report" as title %}
+        {% component "unfold/components/card.html" with title=title %}
+        
+        <div class="max-w-7xl mx-auto py-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Upcoming Campaigns with Short Quantities</h2>
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                                Campaign Name
+                            </th>
+                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                                Start Date
+                            </th>
+                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                                End Date
+                            </th>
+                            <th class="px-6 py-3 text-right text-sm font-medium text-gray-600 uppercase tracking-wider">
+                                Short Quantity (%)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for data in upcoming_campaign_shortages %}
+                        <tr class="
+                            {% if data.short_percentage > 50 %}
+                                bg-red-100 hover:bg-red-200
+                            {% elif data.short_percentage > 20 %}
+                                bg-yellow-100 hover:bg-yellow-200
+                            {% else %}
+                                bg-green-100 hover:bg-green-200
+                            {% endif %}
+                        ">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">
+                                {{ data.campaign.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ data.campaign.start_date }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ data.campaign.end_date }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-800 font-semibold">
+                                {{ data.short_percentage|floatformat:2 }}%
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-gray-600 text-sm">
+                                No upcoming campaigns found.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+        <div class="max-w-7xl mx-auto py-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Top 30 Products with Highest Short Quantities</h2>
+        <div class="overflow-x-auto shadow-md rounded-lg">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                            Product Name
+                        </th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">
+                            Campaign Name
+                        </th>
+                        <th class="px-6 py-3 text-right text-sm font-medium text-gray-600 uppercase tracking-wider">
+                            Quantity Required
+                        </th>
+                        <th class="px-6 py-3 text-right text-sm font-medium text-gray-600 uppercase tracking-wider">
+                            Quantity Short
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for product in top_short_products %}
+                    <tr class="
+                        {% if product.short_qty > 50 %}
+                            bg-red-100 hover:bg-red-200
+                        {% elif product.short_qty > 20 %}
+                            bg-yellow-100 hover:bg-yellow-200
+                        {% else %}
+                            bg-green-100 hover:bg-green-200
+                        {% endif %}
+                    ">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">
+                            {{ product.product_name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {{ product.campaign_name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-800">
+                            {{ product.qty_required }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-800 font-semibold">
+                            {{ product.short_qty }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center text-gray-600 text-sm">
+                            No products with shortages found for upcoming campaigns.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
       {% endcomponent %}
     </div>
   </div> 
@@ -80,7 +216,7 @@
   var ship_calendarEl = document.getElementById('ship_calendar');
   var ship_calendar = new FullCalendar.Calendar(ship_calendarEl, {
     initialView: 'dayGridMonth',
-    initialDate: '2024-10-07',
+    initialDate: '{{ today|date:"Y-m-d" }}',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -119,7 +255,7 @@
   var camp_calendarEl = document.getElementById('camp_calendar');
   var camp_calendar = new FullCalendar.Calendar(camp_calendarEl, {
     initialView: 'dayGridMonth',
-    initialDate: '2024-10-07',
+    initialDate: '{{ today|date:"Y-m-d" }}',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -142,7 +278,7 @@
   var schedule_calendarEl = document.getElementById('schedule_calendar');
   var schedule_calendar = new FullCalendar.Calendar(schedule_calendarEl, {
     initialView: 'dayGridMonth',
-    initialDate: '2024-10-07',
+    initialDate: '{{ today|date:"Y-m-d" }}',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
