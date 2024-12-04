@@ -6,7 +6,8 @@ from .forms import CampaignForm
 from unfold.admin import StackedInline, TabularInline
 from unfold.contrib.forms.widgets import WysiwygWidget
 from django.utils.html import format_html
-
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 
 class CampaignProductInline(TabularInline):
     model = CampaignProduct
@@ -55,7 +56,21 @@ class CampaignAdmin(ModelAdmin):
     inlines = [CampaignProductInline, CampaignPromolInline]
     search_fields = ('name', 'campaign_type')
     date_hierarchy = 'start_date'
+    list_filter = ('campaign_type', 'start_date',)
 
+
+class CampaignProductResource(resources.ModelResource):
+    class Meta:
+        model = CampaignProduct
+        fields = ('campaign', 'product', 'qty_required', 'discount')
+        
+@admin.register(CampaignProduct)
+class CampaignProductAdmin(ImportExportModelAdmin):
+    resource_class = CampaignProductResource
+    list_display = ('campaign', 'product', 'qty_required', 'discount')
+    list_filter = ('campaign',)
+    # Add other admin options as needed
+    
 
 # admin.site.site_header = "LiveVMS Admin"
 # admin.site.site_title = "Live VMS"

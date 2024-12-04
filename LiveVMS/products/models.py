@@ -34,4 +34,5 @@ class Product(models.Model):
     updated_person = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Link to User model
 
     def __str__(self):
-        return self.name
+        #return self.name
+        return f"{self.name} - {self.cis_code}"
