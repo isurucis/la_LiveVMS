@@ -46,7 +46,7 @@ class CampaignPromolInline(StackedInline):
     #     }
     # }
     model = CampaignPromo
-    #extra = 1  # Set to 1 to display the "Add another" button correctly
+    extra = 0  # Set to 1 to display the "Add another" button correctly
     tab = True  # Ensure this option is compatible with your admin interface
 
 @admin.register(Campaign)
