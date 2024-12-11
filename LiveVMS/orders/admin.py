@@ -28,7 +28,7 @@ class ShipmentProductInline(admin.TabularInline):
 class ShipmentAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
-    list_display = ('name', 'date_of_arrival', 'airport', 'country_of_origin', 'status')
+    list_display = ('id', 'name', 'date_of_arrival', 'airport', 'country_of_origin', 'status')
     list_filter = ('status', 'country_of_origin', 'date_of_arrival')
     search_fields = ('name', 'airport')
     inlines = [ShipmentProductInline]

@@ -4,7 +4,16 @@ from .models import ProductCategory, Product
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
-
+from unfold.contrib.filters.admin import (
+    ChoicesDropdownFilter,
+    MultipleRelatedDropdownFilter,
+    RangeDateFilter,
+    RangeDateTimeFilter,
+    RangeNumericFilter,
+    RelatedDropdownFilter,
+    SingleNumericFilter,
+    TextFilter,
+)
 
     
 
@@ -66,7 +75,7 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     resource_class = ProductResource
     list_display = ('laq_code','cis_code', 'id', 'name', 'scientific_name', 'size', 'length', 'family', 'vendor', 'stock', 'price', 'is_active', 'updated_date')
-    list_filter = ( 'family', 'vendor', 'is_active',InStockFilter,)
+    list_filter = ( 'is_active', InStockFilter, "family", 'vendor', )
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date', 'updated_date', 'updated_person')
