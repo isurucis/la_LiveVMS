@@ -37,7 +37,7 @@ from unfold.contrib.filters.admin import (
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'scientific_name', 'category', 'vendor', 'vendor_code', 'cis_code', 'laq_code', 'stock', 'price', 'is_active',)  # Specify the fields to import/export
+        fields = ('id', 'name', 'scientific_name', 'size', 'length', 'family', 'category', 'vendor', 'vendor_code', 'cis_code', 'laq_code', 'stock', 'price', 'is_active',)  # Specify the fields to import/export
 
 # class CategoryFilter(admin.SimpleListFilter):
 #     title = 'category'
