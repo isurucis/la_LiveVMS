@@ -17,4 +17,4 @@ class Vendor(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, verbose_name="Vendor Status")
 
     def __str__(self):
-        return self.name
+        return self.etf_vendor_code

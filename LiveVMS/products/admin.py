@@ -75,7 +75,7 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     resource_class = ProductResource
     list_display = ('laq_code','cis_code', 'id', 'name', 'scientific_name', 'size', 'length', 'family', 'vendor', 'stock', 'price', 'is_active', 'updated_date')
-    list_filter = ( 'is_active', InStockFilter, "family", 'vendor', )
+    list_filter = ( "is_active", InStockFilter, ("family", ChoicesDropdownFilter), ("vendor", ChoicesDropdownFilter), )
     search_fields = ('name', 'scientific_name', 'vendor_code', 'cis_code', 'laq_code')
     date_hierarchy = 'created_date'
     readonly_fields = ('created_date', 'updated_date', 'updated_person')
